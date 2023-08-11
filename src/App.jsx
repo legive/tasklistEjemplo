@@ -1,53 +1,63 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import './App.css'
 import Api from './components/Api'
 import Inicilizar from './components/Inicializar'
 import TodoList from './components/TodoList';
-const lista=[
-  {
-    id:1, 
-  tittle:"lavar ropa", 
-  state:false
-},
 
-  {id:2, 
-    tittle:"Hacer comida",
-  state:false}
-];
 
 function App() {
+
+  function reducir(state, action){
+if(action.type=='INCREMENT')
+{
+  return {...state,
+    valor2: state.valor2+1,
+    name:"Eldy"
   
-  const [value, setValue]=useState("")
-  const [listTask, setlistTask]=useState(lista)
-
-  function handleAddTask()
-  {
-const tarea={
-  id:crypto.randomUUID(), 
-  tittle:{value}, 
-  state:false
-
+  }
 }
-setlistTask([...listTask,tarea]);
+else if(action.type=='DECREMENT')
+{
+  return {...state,
+    valor2: state.valor2-1,
+    name:"Leyla"
+  
+  }
+}
+else if(action.type=='RESET')
+{
+  return {...state,
+    valor2: 0,
+    name:"Keyla"
+  
+  }
+}
 
   }
-
-  return(
-
-    <div>
-  <h1>Lista de tareas</h1>
-  <input placeholder='Agrega tu tarea' onChange={(event)=>{setValue(event.target.value)}}></input>
-  <button onClick={handleAddTask}>Add</button>
-<p>{value}</p>
-  {listTask.map((elemento,index)=>{
-return<p key={elemento.id}>{index} {elemento.tittle} {elemento.id} </p>
-
-  })}
   
-{/* <button onClick={<TodoList todos={TASK}/>}>Agregar Tarea</button> */}
- 
-    </div>
+  const [cont, setCont]=useState(0)
+  const [state, dispach]=useReducer(reducir,{
+    
+    valor2:123,
+    name:"Leyla",
+  
+  });
+
+  
+  return(
+<div>
+  <h1>USE STATE</h1>
+  <p>{cont}</p>
+  <button onClick={()=>{setCont(cont+1)}}>USE STATE INCREMENT</button>
+  <h1>USE REDUCER</h1>
+  
+    <p>{state.valor2}</p>
+    <p>{state.name}</p>
+    <button onClick={()=>dispach({type:'INCREMENT'})}>+Use reducer</button>
+    <button onClick={()=>dispach({type:'DECREMENT'})}>-Use reducer</button>
+    <button onClick={()=>dispach({type:'RESET'})}>-Use reducer</button>
+     </div>
   )
  
 }
